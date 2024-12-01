@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Custom styles for the buttons */
+    .emoti_offline {
+      width: 100%; 
+      text-align: center; 
+      color: rgb(0, 0, 0);
+      font-family: 'Italiana', serif;
+      font-size: 5rem;
+      font-weight: light;
+    }
+
+    .btn-angry {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      border-radius: 120px;
+    }
+    .btn-fear {
+      background-color: #6c757d;
+      border-color: #6c757d;
+      border-radius: 120px;
+    }
+    .btn-happy {
+      background-color: #ffc107;
+      border-color: #ffc107;
+      border-radius: 120px;
+    }
+    .btn-neutral {
+      background-color: #C0C0C0;
+      border-color: #C0C0C0;
+      border-radius: 120px;
+    }
+    .btn-sad {
+      background-color: #007bff;
+      border-color: #007bff;
+      border-radius: 120px;
+    }
+
+    /* Hover effects for buttons */
+    .btn-angry:hover {
+      background-color: #c82333;
+    }
+
+    .btn-fear:hover {
+      background-color: #5a6268;
+    }
+
+    .btn-happy:hover {
+      background-color: #0069d9;
+    }
+
+    .btn-neutral:hover {
+      background-color: #7a3f1b;
+    }
+
+    .btn-sad:hover {
+      background-color: #e0a800;
+    }
+
+    .btn-lg {
+        font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="vh-100" style="background-color: #666;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-7">
+          <div class="card text-black" style="border-radius: 60px;">
+            <div class="card-body p-md-4">
+              <h1 class="emoti_offline">Emoti</h1>
+              <p>please select u emotion manually</p>
+              <form id="settingsForm">
+                <!-- Angry -->
+                <div class="d-grid mb-3">
+                    <button id="angryButton" class=" btn-angry btn-lg text-white py-3">
+                        😠 Angry
+                    </button>
+                </div>
+                <!-- Fear -->
+                <div class="d-grid mb-3">
+                    <button id="fearButton" class=" btn-fear btn-lg text-white py-3">
+                        😨 Fear
+                    </button>
+                </div>
+                <!-- Happy -->
+                <div class="d-grid mb-3">
+                    <button id="happyButton" class=" btn-happy btn-lg text-white py-3">
+                        😊 Happy
+                    </button>
+                </div>
+                <!-- Neutral -->
+                <div class="d-grid mb-3">
+                    <button id="neutralButton" class=" btn-neutral btn-lg text-white py-3">
+                        😐 Neutral
+                    </button>
+                </div>
+                <!-- Sad -->
+                <div class="d-grid mb-3">
+                    <label class="form-label" for="formSad"></label>
+                    <button id="sadButton" class=" btn-sad btn-lg text-white py-3">
+                        😢 Sad
+                    </button>
+                </div>
+                
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
