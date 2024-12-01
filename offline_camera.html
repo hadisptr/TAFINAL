@@ -12,6 +12,15 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     /* Custom styles for the buttons */
+    .emoti_offline {
+      width: 100%; 
+      text-align: center; 
+      color: rgb(0, 0, 0);
+      font-family: 'Italiana', serif;
+      font-size: 5rem;
+      font-weight: light;
+    }
+
     .btn-angry {
       background-color: #dc3545;
       border-color: #dc3545;
@@ -23,18 +32,18 @@
       border-radius: 120px;
     }
     .btn-happy {
-      background-color: #007bff;
-      border-color: #007bff;
+      background-color: #ffc107;
+      border-color: #ffc107;
       border-radius: 120px;
     }
     .btn-neutral {
-      background-color: #8B4513;
-      border-color: #8B4513;
+      background-color: #C0C0C0;
+      border-color: #C0C0C0;
       border-radius: 120px;
     }
     .btn-sad {
-      background-color: #ffc107;
-      border-color: #ffc107;
+      background-color: #007bff;
+      border-color: #007bff;
       border-radius: 120px;
     }
 
@@ -72,7 +81,7 @@
         <div class="col-lg-8 col-xl-7">
           <div class="card text-black" style="border-radius: 60px;">
             <div class="card-body p-md-4">
-              <h1 class="text-center fw-bold mb-4">Emoti</h1>
+              <h1 class="emoti_offline">Emoti</h1>
               <p>please select u emotion manually</p>
               <form id="settingsForm">
                 <!-- Angry -->
