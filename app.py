@@ -40,6 +40,21 @@ def index():
 def coba_kamera():
     return render_template('coba_kamera.html')
 
+@app.route('/offline_camera')
+def offline_camera():
+    return render_template('offline_camera.html')
+
+@app.route('/get_link/<emotion>', methods=['GET'])
+def get_link(emotion):
+    try:
+        # Dapatkan link untuk emosi yang diminta
+        if emotion in youtube_links:
+            return jsonify({'success': True, 'link': youtube_links[emotion]})
+        else:
+            return jsonify({'success': False, 'message': 'Emotion not found'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+
 @app.route('/setting')
 def setting():
     return render_template('setting.html')
@@ -50,10 +65,12 @@ def update_links():
         # Mendapatkan data dari body request
         data = request.get_json()
 
-        # Memperbarui URL dengan data yang diterima
-        for emotion in youtube_links.keys():
-            if emotion in data:
+        # Memperbarui URL dengan data yang diterima atau menggunakan default jika kosong
+        for emotion, default_link in youtube_links.items():
+            if emotion in data and data[emotion].strip():  # Cek apakah data tidak kosong
                 youtube_links[emotion] = data[emotion]
+            else:
+                youtube_links[emotion] = default_link  # Gunakan nilai default jika kosong
 
         # Menyimpan data yang diperbarui ke file (optional)
         with open('links.json', 'w') as file:
@@ -64,6 +81,7 @@ def update_links():
 
     except Exception as e:
         return jsonify({"success": False, "message": str(e)})
+
 
 # ----------------------------
 

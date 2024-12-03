@@ -124,5 +124,51 @@
     </div>
   </section>
 
+  <script>
+    // Fungsi untuk redirect berdasarkan emosi
+    async function redirectToEmotion(emotion) {
+      try {
+        // Fetch link dari server
+        const response = await fetch(`/get_link/${emotion}`);
+        const data = await response.json();
+        if (data.success) {
+          // Redirect ke link yang diterima
+          window.location.href = data.link;
+        } else {
+          alert(data.message || 'Failed to retrieve link.');
+        }
+      } catch (error) {
+        alert('Error fetching link. Please try again.');
+      }
+    }
+  
+    // Tambahkan event listener untuk setiap tombol
+    document.getElementById('angryButton').addEventListener('click', (e) => {
+      e.preventDefault();
+      redirectToEmotion('angry');
+    });
+  
+    document.getElementById('fearButton').addEventListener('click', (e) => {
+      e.preventDefault();
+      redirectToEmotion('fear');
+    });
+  
+    document.getElementById('happyButton').addEventListener('click', (e) => {
+      e.preventDefault();
+      redirectToEmotion('happy');
+    });
+  
+    document.getElementById('neutralButton').addEventListener('click', (e) => {
+      e.preventDefault();
+      redirectToEmotion('neutral');
+    });
+  
+    document.getElementById('sadButton').addEventListener('click', (e) => {
+      e.preventDefault();
+      redirectToEmotion('sad');
+    });
+  </script>
+  
+
 </body>
 </html>
