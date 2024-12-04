@@ -92,7 +92,7 @@
       padding-bottom: 20px;
     }
 
-    .online-camera-camera-placeholder {
+      .online-camera-camera-placeholder {
       width: 100%;
       max-width: 640px;
       aspect-ratio: 16 / 9;
@@ -104,6 +104,14 @@
       border-radius: 8px;
       text-align: center;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative; /* Tambahan untuk konteks positioning */
+    }
+
+    .online-camera-camera-placeholder video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
     }
 
     .online-camera-loader {
@@ -198,7 +206,7 @@
     .then(data => {
       emotionResult.innerHTML = `Detected Emotion: ${data.emotion}`;
       if (data.done) {
-        window.location.href = data.youtube_link;
+        window.location(data.youtube_link, "_blank");
       }
     })
     .catch(error => {
@@ -211,12 +219,27 @@
     clearInterval(captureInterval);
     if (stream) {
       let tracks = stream.getTracks();
-      tracks.forEach(track => track.stop());  // Stop all media tracks
+      tracks.forEach(track => track.stop()); // Stop all media tracks
     }
-    emotionResult.innerHTML = "";
-    alert("Camera reset. Restarting...");
-    window.location.reload();
-  }
+
+    fetch('/reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.reset) {
+        emotionResult.innerHTML = ""; // Clear UI
+        alert("Camera reset successfully. Restarting...");
+        window.location.reload(); // Reload page after reset
+      }
+    })
+    .catch(error => {
+      console.error("Error during reset:", error);
+    });
+}
 </script>
 
 </body>

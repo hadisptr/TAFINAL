@@ -24,13 +24,27 @@ emotion_counts = {'angry': 0, 'disgust': 0, 'fear': 0, 'happy': 0, 'sad': 0, 'su
 
 # Default YouTube links
 youtube_links = {
-    'happy': "https://open.spotify.com/artist/4IWBUUAFIplrNtaOHcJPRM",
     'angry': "https://www.youtube.com/watch?v=f1De87ETXwo",
-    'sad': "https://www.youtube.com/watch?v=oAVhUAaVCVQ",
+    'fear' : "https://open.spotify.com/artist/4IWBUUAFIplrNtaOHcJPRM",
+    'happy': "https://open.spotify.com/artist/4IWBUUAFIplrNtaOHcJPRM",
+    'sad': "https://www.youtube.com/watch?v=f1De87ETXwo",
     'neutral': "https://youtu.be/I_Rx6A2uK7U?si=7Ud9vWT_WGEFH_r9"
 }
 
 # ----------------------------
+
+# Load links from JSON file
+def load_links():
+    global youtube_links
+    try:
+        with open('links.json', 'r') as file:
+            youtube_links = json.load(file)
+    except FileNotFoundError:
+        pass  # File belum ada, gunakan default
+
+@app.before_request
+def reload_links():
+    load_links()  # Pastikan setiap request menggunakan data terbaru
 
 @app.route('/')
 def index():
@@ -62,23 +76,17 @@ def setting():
 @app.route('/update_links', methods=['POST'])
 def update_links():
     try:
-        # Mendapatkan data dari body request
         data = request.get_json()
 
-        # Memperbarui URL dengan data yang diterima atau menggunakan default jika kosong
+        # Perbarui link berdasarkan data input
         for emotion, default_link in youtube_links.items():
-            if emotion in data and data[emotion].strip():  # Cek apakah data tidak kosong
-                youtube_links[emotion] = data[emotion]
-            else:
-                youtube_links[emotion] = default_link  # Gunakan nilai default jika kosong
+            youtube_links[emotion] = data.get(emotion, default_link)
 
-        # Menyimpan data yang diperbarui ke file (optional)
+        # Simpan ke file JSON
         with open('links.json', 'w') as file:
             json.dump(youtube_links, file)
 
-        # Mengembalikan response dengan status sukses
         return jsonify({"success": True, "message": "Links updated successfully!"})
-
     except Exception as e:
         return jsonify({"success": False, "message": str(e)})
 
@@ -124,7 +132,7 @@ def predict():
 @app.route('/reset', methods=['POST'])
 def reset():
     global emotion_counts
-    emotion_counts = {'angry': 0, 'disgust': 0, 'fear': 0, 'happy': 0, 'sad': 0, 'surprise': 0, 'neutral': 0}
+    emotion_counts = {emotion: 0 for emotion in emotions}
     return jsonify({'reset': True})
 
 if __name__ == "__main__":
