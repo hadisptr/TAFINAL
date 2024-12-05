@@ -97,13 +97,22 @@
 
   <script>
     // Hardcoded links (gunakan server jika diperlukan)
-    const emotionLinks = {
-      angry: "https://www.youtube.com/results?search_query=angry+music",
-      fear: "https://www.youtube.com/results?search_query=fear+music",
-      happy: "https://www.youtube.com/results?search_query=happy+music",
-      neutral: "https://www.youtube.com/results?search_query=neutral+music",
-      sad: "https://www.youtube.com/results?search_query=sad+music"
-    };
+    
+    async function redirectToEmotion(emotion) {
+      try {
+        // Fetch link dari server
+        const response = await fetch(`/get_link/${emotion}`);
+        const data = await response.json();
+        if (data.success) {
+          // Redirect ke link yang diterima
+          window.location.href = data.link;
+        } else {
+          alert(data.message || 'Failed to retrieve link.');
+        }
+      } catch (error) {
+        alert('Error fetching link. Please try again.');
+      }
+    }
 
     const emotionPreview = document.getElementById('emotionPreview');
 
@@ -115,11 +124,6 @@
 
     function hideEmotion() {
       emotionPreview.classList.remove('visible');
-    }
-
-    // Redirect ke link YouTube
-    function redirectToEmotion(emotion) {
-      window.location.href = emotionLinks[emotion];
     }
 
     // Event listeners tombol
