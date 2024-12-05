@@ -6,6 +6,14 @@
   <title>Settings</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
     .offline_title {
       width: 100%; 
       text-align: center; 
@@ -13,7 +21,31 @@
       font-family: 'Italiana', serif;
       font-size: 5rem;
       font-weight: light;
+      margin: 0;
     }
+
+    .burger-menu {
+      position: absolute;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .burger-line {
+      height: 4px;
+      background-color: #6c757d;
+      border-radius: 2px;
+      transition: background-color 0.3s ease;
+    }
+
+    .burger-menu:hover .burger-line {
+      background-color: #5a6268;
+    }
+    
     .offline_description {
       width: 100%; 
       text-align: center; 
@@ -68,7 +100,15 @@
         <div class="col-lg-8 col-xl-7">
           <div class="card text-black" style="border-radius: 60px;">
             <div class="card-body p-md-4">
-              <h1 class="offline_title">Emoti</h1>
+              <div class="header">
+                <h1 class="offline_title">Emoti</h1>
+                <div class="burger-menu" onclick="window.location.href = 'setting';">
+                  <div class="burger-line"></div>
+                  <div class="burger-line"></div>
+                  <div class="burger-line"></div>
+                </div>
+              </div>
+
               <h2 class="offline_description">Please select your emotion manually</h2>
               <div id="emotionPreview" class="emotion-preview">😊</div>
 
@@ -100,19 +140,37 @@
     
     async function redirectToEmotion(emotion) {
       try {
-        // Fetch link dari server
         const response = await fetch(`/get_link/${emotion}`);
         const data = await response.json();
-        if (data.success) {
+        if (data.success && data.link) {
           // Redirect ke link yang diterima
           window.location.href = data.link;
         } else {
-          alert(data.message || 'Failed to retrieve link.');
+          // alert(data.message || 'Default link will be used.');
+          // Jika link kosong, gunakan default
+          const defaultLinks = {
+            'angry': "https://www.youtube.com/watch?v=f1De87ETXwo",
+            'fear': "https://open.spotify.com/artist/4IWBUUAFIplrNtaOHcJPRM",
+            'happy': "https://open.spotify.com/artist/4IWBUUAFIplrNtaOHcJPRM",
+            'sad': "https://www.youtube.com/watch?v=f1De87ETXwo",
+            'neutral': "https://youtu.be/I_Rx6A2uK7U?si=7Ud9vWT_WGEFH_r9"
+          };
+          window.location.href = defaultLinks[emotion];
         }
       } catch (error) {
-        alert('Error fetching link. Please try again.');
+        // alert('Error fetching link. Using default link.');
+        // Gunakan default jika terjadi error
+        const defaultLinks = {
+          'angry': "https://www.youtube.com/watch?v=f1De87ETXwo",
+          'fear': "https://open.spotify.com/artist/4IWBUUAFIplrNtaOHcJPRM",
+          'happy': "https://open.spotify.com/artist/4IWBUUAFIplrNtaOHcJPRM",
+          'sad': "https://www.youtube.com/watch?v=f1De87ETXwo",
+          'neutral': "https://youtu.be/I_Rx6A2uK7U?si=7Ud9vWT_WGEFH_r9"
+        };
+        window.location.href = defaultLinks[emotion];
       }
     }
+    
 
     const emotionPreview = document.getElementById('emotionPreview');
 
