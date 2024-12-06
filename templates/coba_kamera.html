@@ -114,14 +114,39 @@
       border-radius: 8px;
     }
 
+    .loader-container {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
     .online-camera-loader {
-      border: 8px solid #f3f3f3;
-      border-top: 8px solid #4280f4;
-      border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      animation: spin 2s linear infinite;
-      margin-bottom: 20px;
+      transform: rotate(-90deg); /* Memulai animasi dari atas */
+      width: 100px;
+      height: 100px;
+    }
+    
+    .background-circle {
+      fill: none;
+      stroke: #f3f3f3;
+      stroke-width: 11;
+    }
+    
+    .progress-circle {
+      fill: none;
+      stroke: #4280f4;
+      stroke-width: 11;
+      stroke-dasharray: 283; /* Panjang keliling lingkaran (2 * π * radius) */
+      stroke-dashoffset: 283; /* Awalnya lingkaran tidak terlihat */
+      animation: progress 10s linear forwards;
+    }
+    
+    @keyframes progress {
+      to {
+        stroke-dashoffset: 0; /* Lingkaran penuh */
+      }
     }
 
     .online-camera-reset-button {
@@ -138,11 +163,6 @@
 
     .online-camera-reset-button:hover {
       background-color: #e3b837;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -162,7 +182,12 @@
     <video autoplay="true" id="videoElement"></video>
   </div>
   <div id="emotionResult"></div>
-  <div class="online-camera-loader"></div>
+  <div class="loader-container">
+    <svg class="online-camera-loader" viewBox="0 0 100 100">
+      <circle class="background-circle" cx="50" cy="50" r="45" />
+      <circle class="progress-circle" cx="50" cy="50" r="45" />
+    </svg>
+  </div>
   <button class="online-camera-reset-button" onclick="resetCamera()">Reset Camera</button>
 </div>
 
