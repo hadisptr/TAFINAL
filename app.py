@@ -121,7 +121,7 @@ def predict():
     emotion_counts[predicted_emotion] += 1
 
     # Check if 20 facial expressions have been detected
-    if sum(emotion_counts.values()) == 10:
+    if sum(emotion_counts.values()) == 15:
         highest_emotion = max(emotion_counts, key=emotion_counts.get)
         if highest_emotion in youtube_links:
             webbrowser.open(youtube_links[highest_emotion])
