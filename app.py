@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore")
 app = Flask(__name__)
 
 # Load the model
-model = load_model("best_model.h5")
+model = load_model("mobilenet_model.h5")
 
 # Initialize face detector using Haar Cascade
 face_haar_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
